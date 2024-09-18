@@ -1,0 +1,11 @@
+name: pulumi-omni
+runtime:
+  name: python
+  options:
+    toolchain: pip
+    virtualenv: venv
+description: A minimal OpenStack Python Pulumi program
+config:
+  pulumi:tags:
+    value:
+      pulumi:template: openstack-python
