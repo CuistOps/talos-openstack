@@ -15,13 +15,12 @@ subnet = networking.Subnet(
     dns_nameservers=["1.1.1.1", "9.9.9.9"],
 )
 
-# Create a router (to connect the subnet to internet)
 router = networking.Router(
     "nodes-router",
     admin_state_up=True,
     external_network_id="0f9c3806-bd21-490f-918d-4a6d1c648489",
 )
-router_interface1 = networking.RouterInterface(
+networking.RouterInterface(
     "routerInterface", router_id=router.id, subnet_id=subnet.id
 )
 
@@ -36,7 +35,6 @@ networking.SecGroupRule(
     security_group_id=node_secgroup.id,
 )
 
-
 talos_image = images.Image("talos-image",
     local_file_path="talos-omni-v1.7.4.iso",
     container_format="bare",
@@ -46,7 +44,6 @@ talos_image = images.Image("talos-image",
     visibility="private")
 
 for node in ["node-1", "node-2", "node-3"]:
-
   instance_worker = compute.Instance(
       node,
       flavor_name="a1-ram2-disk20-perf1",
@@ -60,11 +57,11 @@ for node in ["node-1", "node-2", "node-3"]:
     instance_id=instance_worker.id,
     volume_id=volume.id) 
   
-  floating_ip_admin = compute.FloatingIp(node, pool="ext-floating1")
-  floating_ip_admin_associate = compute.FloatingIpAssociate(
-      f"floating-ip-{node}",
-      floating_ip=floating_ip_admin.address,
-      instance_id=instance_worker.id,
-      fixed_ip=instance_worker.networks[0].fixed_ip_v4,
-  )
+#  floating_ip_admin = compute.FloatingIp(node, pool="ext-floating1")
+#  compute.FloatingIpAssociate(
+#      f"floating-ip-{node}",
+#      floating_ip=floating_ip_admin.address,
+#      instance_id=instance_worker.id,
+#      fixed_ip=instance_worker.networks[0].fixed_ip_v4,
+#  )
 
